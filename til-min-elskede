@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤍 Til Min Elskede, Asger 🤍</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pixelify Sans', sans-serif;
+        }
+
+        body {
+            font-family: 'Pixelify Sans', sans-serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f48fb1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .stage {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .stage.active {
+            display: block;
+        }
+
+        /* Password Stage */
+        .password-box {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .lock-icon {
+            width: 80px;
+            height: 80px;
+            background: #fce4ec;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-family: 'Pixelify Sans', sans-serif;
+            color: #333;
+            margin-bottom: 10px;
+            white-space: nowrap;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #f8bbd0;
+            border-radius: 15px;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f48fb1;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f48fb1, #ec407a);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        .calculator-container {
+            background: white;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 900px;  
+            width: 90%; 
+            margin: 0 auto;  
+        }
+
+        .calc-content {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        @media (max-width: 768px) {
+            .calc-content {
+                flex-direction: column;
+            }
+        }
+
+        .picture-illustration {
+            flex: 1;
+            background: linear-gradient(135deg, #e1bee7, #f8bbd0);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 400px; 
+            max-height: 500px;  
+        }
+
+        .picture-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-height: 450px;  
+        }
+
+        .calculator {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .calc-title {
+            text-align: center;
+            color: #ec407a;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .calc-display {
+            background: #fce4ec;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .calc-display input {
+            background: white;
+            border: 2px solid #f8bbd0;
+            margin: 0;
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .calc-btn {
+            padding: 18px;
+            background: #fce4ec;
+            color: #ec407a;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calc-btn:hover {
+            background: #f8bbd0;
+            transform: scale(1.05);
+        }
+
+        .calc-btn.clear {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .calc-btn.equals {
+            background: linear-gradient(135deg, #f48fb1, #ec407a);
+            color: white;
+        }
+
+        /* Letter Stage */
+        .letter-container {
+            position: relative;
+            width: 450px;
+            height: 550px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 440px;
+            height: 320px;
+            background: linear-gradient(135deg, #ffe0ed 0%, #ffd4e8 50%, #ffc9e5 100%);  
+            border-radius: 30px;
+            box-shadow: 
+                0 25px 70px rgba(255, 182, 193, 0.3),
+                inset 0 -5px 15px rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.7s ease-out;
+            overflow: hidden;
+            border: 4px solid #ffb3d9;
+            position: relative;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('soon.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+            border-radius: 26px;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 
+                0 30px 80px rgba(255, 105, 180, 0.5),
+                inset 0 -5px 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .envelope.opened {
+            transform: translateY(100px) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #ffc9e0, #ffb3d9);  /* Soft pink flap */
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transition: transform 0.5s ease-out;
+            transform-origin: top center;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.3);
+            z-index: 2;
+        }
+
+        /* Ribbon decoration */
+        .envelope-flap::before {
+            content: '────────⋆｡‧˚ʚ ୨ৎ ɞ˚‧｡⋆────────';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: rgba(212, 41, 41, 0.452);
+            white-space: nowrap;
+        }
+
+        .envelope.opened .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-heart {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 55px;
+            filter: drop-shadow(0 5px 10px rgba(255, 105, 180, 0.4));
+            animation: heartbeat 1.5s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1); 
+            }
+            25% { 
+                transform: translateX(-50%) scale(1.15); 
+            }
+            50% { 
+                transform: translateX(-50%) scale(1); 
+            }
+            75% { 
+                transform: translateX(-50%) scale(1.1); 
+            }
+        }
+
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.25),
+                0 0 0 4px #ffb3d9,
+                0 0 0 8px #ffc9e5;
+            padding: 40px;
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .letter.revealed {
+            transform: translate(-50%, -180px);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .letter-border {
+            border: 3px dashed #ffb3d9;
+            border-radius: 20px;
+            padding: 30px;
+            background: 
+                linear-gradient(to bottom, #ffffff, #fff9fc);
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(255, 182, 193, 0.1);
+        }
+
+        /* Flower corners */
+        .letter-border::before {
+            content: '🎀';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 30px;
+        }
+
+        .letter-border::after {
+            content: '🎀';
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 30px;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .letter h3 {
+            color: #ff6bb5;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;  
+            text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.3);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .letter h3::before {
+            content: '˗ˏˋ ♡ ˎˊ˗';
+            margin-right: 10px;
+        }
+
+        .letter h3::after {
+            content: '˗ˏˋ ♡ ˎˊ˗';
+            margin-left: 10px;
+        }
+
+        .letter p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .letter-buttons button {
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .letter-buttons button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .letter-buttons button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .letter-buttons button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .letter-buttons .maybe-btn {
+            background: linear-gradient(135deg, #ffe4f0, #ffc9e5);
+            color: #ff6bb5;
+            border: 2px solid #ffb3d9;
+        }
+
+        .letter-buttons .maybe-btn:hover {
+            background: linear-gradient(135deg, #ffc9e5, #ffb3d9);
+        }
+
+        .click-prompt {
+            text-align: center;
+            margin-top: 20px;
+            color: #ec407a;
+            font-weight: bold;
+            font-size: 18px;
+            animation: bounce 1s infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Final Stage */
+        .final-box {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: scaleIn 0.5s;
+        }
+
+        .final-title {
+            font-size: 48px;
+            background: linear-gradient(135deg, #ec407a, #f48fb1, #ec407a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .final-date {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .final-message {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .final-hearts {
+            font-size: 50px;
+            animation: pulse 2s infinite;
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 30px;
+            animation: floatUp 4s ease-in infinite;
+            pointer-events: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .shake {
+            animation: shake 0.3s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .calculator-container {
+                max-width: 750px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calculator-container {
+                width: 95%;
+                padding: 15px;
+            }
+    
+            .calc-content {
+                flex-direction: column;
+            }
+    
+            .picture-illustration {
+                max-width: 100%;
+                max-height: 400px;
+            }
+    
+            .calculator {
+                max-width: 100%;
+            }
+
+            .letter-container {
+                width: 95%;
+                height: 550px;
+            }
+
+            .envelope {
+                width: 90%;
+                max-width: 400px;
+            }
+
+            .letter {
+                width: 90%;
+                max-width: 420px;
+                padding: 30px;
+            }
+
+            .letter-border {
+                padding: 25px;
+            }
+
+            .letter h3 {
+                font-size: 20px;
+            }
+
+            .letter p {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator-container {
+                padding: 10px;
+            }
+    
+            .picture-illustration {
+                max-height: 300px;
+            }
+    
+            .calc-btn {
+                padding: 15px;
+                font-size: 14px;
+            }
+
+            .letter {
+                padding: 20px;
+            }
+
+            .letter-border {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Stage 1: Password -->
+    <div id="stage1" class="stage active">
+        <div class="container">
+            <div class="password-box">
+                <div class="lock-icon">🔒</div>
+                <h1 style="font-size: 22px; font-family: 'Pixelify Sans', sans-serif; white-space: nowrap;">🤍 Til Min Elskede, Asger 🤍</h1>
+                <p class="subtitle">Enter the secret password</p>
+                <input type="password" id="passwordInput" placeholder="Type the magic words...">
+                <button onclick="checkPassword()">Unlock 💝</button>
+                <p class="hint">Hint: 3 words, i love you in Bahasa, no capital, no spaces 😉❤️‍🔥</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 2: Calculator -->
+    <div id="stage2" class="stage">
+        <div class="calculator-container">
+            <div class="calc-content">
+                <div class="picture-illustration">
+                    <img src="mylove.jpg" alt="My Handsome Retarded" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+                </div>
+                <div class="calculator">
+                    <h2 class="calc-title">Unlock for surprise 🤫</h2>
+                    <div class="calc-display">
+                        <input type="text" id="calcDisplay" readonly placeholder="Enter date">
+                    </div>
+                    <div class="calc-buttons">
+                        <button class="calc-btn" onclick="calcClick('1')">1</button>
+                        <button class="calc-btn" onclick="calcClick('2')">2</button>
+                        <button class="calc-btn" onclick="calcClick('3')">3</button>
+                        <button class="calc-btn" onclick="calcClick('4')">4</button>
+                        <button class="calc-btn" onclick="calcClick('5')">5</button>
+                        <button class="calc-btn" onclick="calcClick('6')">6</button>
+                        <button class="calc-btn" onclick="calcClick('7')">7</button>
+                        <button class="calc-btn" onclick="calcClick('8')">8</button>
+                        <button class="calc-btn" onclick="calcClick('9')">9</button>
+                        <button class="calc-btn clear" onclick="calcClick('C')">C</button>
+                        <button class="calc-btn" onclick="calcClick('0')">0</button>
+                        <button class="calc-btn equals" onclick="calcClick('=')">✓</button>
+                    </div>
+                    <p class="hint">Hint: Your Birth Date (DDMMYYYY) 💝</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 3: Letter -->
+    <div id="stage3" class="stage">
+        <div class="letter-container">
+            <div class="envelope" id="envelope" onclick="openLetter()">
+                <div class="envelope-flap"></div>
+                <div class="envelope-heart">❤️</div>
+            </div>
+            <div class="letter" id="letter">
+                <div class="letter-border">
+                    <h3>Hej Sayangku</h3>
+                    <p>
+                        My Dearest Love 🤍,
+                        <br><br>
+                        On this day, which marks the beautiful arrival of you into the world. For the gift of your life, I must also appreciate for the two extraordinary souls who brought you forth, and for all the love and strength they poured into the man you have become. It is through their grace that the greatest love of my life exists.
+                        <br><br>
+                        There is a quiet, profound thankfulness that settles over me, knowing that out of the untold billions of souls this earth has cradled, the universe conspired to place you right here, right now. It is a miracle, a serendipitous stroke of fate, that our paths didn't just cross, but entwined into the single, shared journey we now walk.
+                        <br><br>
+                        Before you, the world was perhaps less vibrant, its songs a little muted. But since you've been here—my anchor, my light, my most beloved companion—you have colored every corner of my existence with an unparalleled joy. Your kindness is the gentle rain that nourishes me, your laughter is the melody I never tire of hearing, and your presence is the safest haven I have ever known.
+                        <br><br>
+                        To simply have you be in this world is a gift. But to have you be mine? That is the most extraordinary blessing I could ever ask for.
+                        <br><br>
+                        Thank you, my love, for being born. Thank you for every moment we have shared, and for all the beautiful ones that are still waiting for us.
+                        <br><br>
+                        May your birthday be as wonderfully bright and utterly magical as you have made my life. You are cherished, beyond measure.
+                        <br><br>
+                        Happy Birthday, Sayangku.
+                        <br><br>
+                        Thank you for finding me. Thank you for choosing me. You are the 'once in a lifetime' I've been waiting for. Will you be patient with me, until we can finally begin our forever? would you still love me? 💕
+                    </p>
+                    <div class="letter-buttons" id="letterButtons">
+                        <button onclick="respond('yes')">Yes, I'll love you too! 💖</button>
+                        <button class="maybe-btn" id="noButton" onmouseover="moveButton()" onclick="confirmNo()">No, I don't love you 😢</button>
+                    </div>
+                </div>
+            </div>
+            <p class="click-prompt" id="clickPrompt">Click to open! 💌</p>
+        </div>
+    </div>
+
+    <!-- Stage 4: Final -->
+    <div id="stage4" class="stage">
+        <div class="final-box">
+            <h1 class="final-title">Tillykke med fødselsdagen, sayangku!</h1>
+            <p class="final-date">På denne specielle dag, må alle dine drømme gå i opfyldelse 😘</p>
+            <p class="final-message">I loooooove you! With all my love, now and always 💐</p>
+            <div class="final-hearts">🤍🥰🥰🥰🤍</div>
+        </div>
+    </div>
+
+    <script>
+        const correctPassword = 'akucintakamu';
+        const correctDate = '01121999';
+
+        function goToStage(stageNumber) {
+            document.querySelectorAll('.stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            document.getElementById('stage' + stageNumber).classList.add('active');
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const box = document.querySelector('.password-box');
+            
+            if (input.toLowerCase() === correctPassword) {
+                goToStage(2);
+            } else {
+                box.classList.add('shake');
+                setTimeout(() => box.classList.remove('shake'), 300);
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        let calcValue = '';
+
+        function calcClick(value) {
+            const display = document.getElementById('calcDisplay');
+            const container = document.querySelector('.calculator-container');
+            
+            if (value === 'C') {
+                calcValue = '';
+                display.value = '';
+            } else if (value === '=') {
+                if (calcValue === correctDate) {
+                    goToStage(3);
+                } else {
+                    container.classList.add('shake');
+                    setTimeout(() => container.classList.remove('shake'), 300);
+                }
+            } else {
+                calcValue += value;
+                display.value = calcValue;
+            }
+        }
+
+        let letterOpened = false;
+        let noButtonClicked = false;
+
+        function openLetter() {
+            if (!letterOpened) {
+                letterOpened = true;
+        
+        // Animasi amplop kebuka
+        document.getElementById('envelope').classList.add('opened');
+        
+        // Delay sebelum surat muncul
+                setTimeout(() => {
+                    document.getElementById('letter').classList.add('revealed');
+                    document.getElementById('clickPrompt').style.display = 'none';
+                }, 300);
+        
+        // Tombol muncul setelah surat keluar penuh
+                setTimeout(() => {
+                    document.getElementById('letterButtons').classList.add('show');
+                }, 1300);
+            }
+        }
+
+        function respond(answer) {
+            if (answer === 'yes') {
+                goToStage(4);
+                startHeartAnimation();
+            }
+        }
+
+        // Fungsi bikin tombol "No" kabur-kaburan
+        function moveButton() {
+            const noBtn = document.getElementById('noButton');
+            const container = document.querySelector('.letter-border');
+    
+        // Array text yang beda-beda
+            const texts = [
+                'Are you sure? 🥺',
+                'Really? 😢',
+                'Think again! 💔',
+                'Please don\'t say that 😭',
+                'You sure about this? 🥹',
+                'One more chance? 💕'
+            ];
+    
+        // Random text
+            noBtn.textContent = texts[Math.floor(Math.random() * texts.length)];
+    
+        // Random position
+            const maxX = container.offsetWidth - noBtn.offsetWidth - 40;
+            const maxY = container.offsetHeight - noBtn.offsetHeight - 40;
+    
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+    
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transition = 'all 0.3s ease';
+        }
+
+        // Kalau nekad klik tombol "No"
+        function confirmNo() {
+            noButtonClicked = true;
+            const noBtn = document.getElementById('noButton');
+            noBtn.textContent = "Please say yes! 🥹💔";
+    
+        // Bikin tombol "Yes" berkedip
+            const yesBtn = document.querySelector('.letter-buttons button:first-child');
+            yesBtn.style.animation = 'pulse 0.5s ease infinite';
+    
+        // Shake letter
+            const letter = document.getElementById('letter');
+            letter.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                letter.style.animation = '';
+            }, 500);
+        }
+
+        function startHeartAnimation() {
+            setInterval(() => {
+                createFloatingHeart();
+            }, 300);
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '🤍🥳';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.bottom = '-50px';
+            heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+            heart.style.fontSize = (20 + Math.random() * 20) + 'px';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+
+</body>
+</html>
